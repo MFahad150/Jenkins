@@ -1,0 +1,22 @@
+pipeline{
+    agent any
+
+    tools {
+        go 'go-1.17'
+    }
+
+    environment {
+        G0111MODULE='on'
+    }
+
+    stages {
+        stage('Test'){
+            steps{
+                // Get some code from a GitHub repository
+                git 'https://github.com/AdminTurnedDevOps/go-webapp-sample.git'
+                // Shell command to reads current directory (./) , all of the sub directories (...)
+                sh 'go test ./...'
+            }
+        }
+    }
+}

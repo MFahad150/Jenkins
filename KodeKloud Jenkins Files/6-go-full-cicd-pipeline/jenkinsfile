@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    tools {
+        go 'go-1.17'
+    }
+
+    environment {
+        GO111MODULE='on'
+    }
+
+    stages {
+
+        stage('Test'){
+            steps{
+                // Get some code from a GitHub repository
+                git 'https://github.com/AdminTurnedDevOps/go-webapp-sample.git'
+                // Shell command to reads current directory (./) , all of the sub directories (...)
+                sh 'go test ./...'
+            }
+        }
+
+        stage('Build and Run'){
+            steps{
+                // Get some code from a GitHub repository
+                git 'https://github.com/AdminTurnedDevOps/go-webapp-sample.git'
+                sh 'go build .'
+            }
+        }
+
+        stage('Run'){
+            steps{
+                // sh 'cd /var/lib/jenkins/workspace/<pipeline-name> && <go-application-name> &'
+                sh 'cd /var/lib/jenkins/workspace/go-full-pipeline && go-webapp-sample &'
+            }
+        }
+
+    }
+}
